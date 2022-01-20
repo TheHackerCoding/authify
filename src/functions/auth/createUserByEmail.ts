@@ -5,11 +5,12 @@ import { omitKeys } from "~/utils/objects";
 
 import { prisma } from "~/providers/prisma";
 import { generateUsername } from "./generateUsername";
-import { User } from ".prisma/client";
+import { User } from "@prisma/client";
+import { PASSWORD_SALT_ROUNDS } from '~/constants';
 
 async function hashPassword(password: string): Promise<string | undefined> {
   const hashedPassword = await executeOrFail(
-    async () => await bcrypt.hash(password, 10)
+    async () => await bcrypt.hash(password, PASSWORD_SALT_ROUNDS)
   );
 
   return hashedPassword;
